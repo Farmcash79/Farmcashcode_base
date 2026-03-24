@@ -1,12 +1,13 @@
 import { prisma } from "@/lib/db";
-import { getUserIdFromRequest } from "@/lib/auth";
-import { onboardingCompleteSchema } from "@/lib/schemas/onboarding.schema";
+import { getUserFromRequest } from "@/lib/auth";
+import { signSession, setSessionCookie } from "@/lib/session";
 import { NextRequest, NextResponse } from "next/server";
-import { signSession, setSessionCookie } from "@/lib/auth/session";
+import { z } from "zod";
+import { onboardingCompleteSchema } from "@/schemas/onboarding.schema";
 
 export async function POST(req: NextRequest) {
-  const userId = getUserIdFromRequest(req);
-  if (!userId)
+  const sessionUser = await getUserFromRequest(req);
+  if (!sessionUser)
     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
 
   const body = await req.json();
@@ -14,56 +15,67 @@ export async function POST(req: NextRequest) {
 
   if (!parsed.success) {
     return NextResponse.json(
-      { message: "Invalid onboarding data", errors: parsed.error.flatten() },
+      {
+        message: "Invalid onboarding data",
+        errors: z.treeifyError(parsed.error),
+      },
       { status: 400 },
     );
   }
 
-  const data = parsed.data;
+  const draft = await prisma.onboardingDraft.findUnique({
+    where: { userId: sessionUser.userId },
+  });
 
-  const result = await prisma.$transaction(async (db) => {
-    const profile = await db.farmerProfile.upsert({
-      where: { userId },
+  if (draft?.data?.["bvnVerified"] !== true) {
+    return NextResponse.json(
+      { message: "BVN must be verified before completing onboarding" },
+      { status: 400 },
+    );
+  }
+
+  await prisma.$transaction(async (db) => {
+    await db.farmerProfile.upsert({
+      where: { userId: sessionUser.userId },
       update: {
-        farmName: data.farmName,
-        location: data.location,
-        farmSize: data.farmSize,
+        farmName: parsed.data.farmName,
+        location: parsed.data.location,
+        farmType: parsed.data.farmType,
+        farmSize: parsed.data.farmSize ?? null,
       },
       create: {
-        userId,
-        farmName: data.farmName,
-        location: data.location,
-        farmSize: data.farmSize,
+        userId: sessionUser.userId,
+        farmName: parsed.data.farmName,
+        location: parsed.data.location,
+        farmType: parsed.data.farmType,
+        farmSize: parsed.data.farmSize ?? null,
+      },
+    });
+
+    await db.user.update({
+      where: { id: sessionUser.userId },
+      data: {
+        onboardingCompleted: true,
+        bvn: parsed.data.bvn,
       },
     });
 
     await db.onboardingDraft.deleteMany({
-      where: { userId },
+      where: { userId: sessionUser.userId },
     });
-
-    const user = await db.user.update({
-      where: { id: userId },
-      data: {
-        onboardingCompleted: true,
-        onboardingStatus: "COMPLETED",
-      },
-      select: {
-        id: true,
-        role: true,
-        onboardingCompleted: true,
-      },
-    });
-
-    return { profile, user };
   });
 
   const token = await signSession({
-    userId: result.user.id,
-    role: result.user.role,
+    userId: sessionUser.userId,
+    role: sessionUser.role,
     onboardingCompleted: true,
   });
 
-  const response = NextResponse.json({ ok: true });
+  const response = NextResponse.json({
+    ok: true,
+    redirect: "/dashboard",
+  });
+
   setSessionCookie(response, token);
   return response;
 }
