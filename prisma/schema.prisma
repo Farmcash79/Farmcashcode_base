@@ -20,13 +20,19 @@ enum TransactionStatus {
   FAILURE
 }
 
+enum UserRole {
+  FARMER
+  ADMIN
+}
+
 model User {
   id            String        @id @default(cuid())
   name          String
   email         String        @unique
   passwordHash  String
-  role          String        @default("FARMER")
+  role          UserRole      @default(FARMER)
   walletBalance Int           @default(0)
+  onboardingCompleted Boolean @default(false)
   transactions  Transaction[]
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt
