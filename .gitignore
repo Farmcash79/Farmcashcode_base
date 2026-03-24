@@ -42,3 +42,5 @@ next-env.d.ts
 
 # workspace
 farmcash.pdf
+
+/lib/generated/prisma

@@ -1,0 +1,49 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../lib/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum TransactionType {
+  FUND_WALLET
+  SEND_MONEY
+  MERCHANT_PAYMENT
+  BULK_PAYOUT
+}
+
+enum TransactionStatus {
+  PENDING
+  SUCCESS
+  FAILURE
+}
+
+model User {
+  id            String        @id @default(cuid())
+  name          String
+  email         String        @unique
+  passwordHash  String
+  role          String        @default("FARMER")
+  walletBalance Int           @default(0)
+  transactions  Transaction[]
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+}
+
+model Transaction {
+  id          String            @id @default(cuid())
+  userId      String
+  user        User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type        TransactionType
+  status      TransactionStatus @default(PENDING)
+  amount      Int // in kobo
+  currency    String            @default("NGN")
+  reference   String            @unique
+  providerRef String?
+  description String?
+  meta        Json?
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+}
