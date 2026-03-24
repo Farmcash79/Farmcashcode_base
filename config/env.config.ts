@@ -4,6 +4,8 @@ export const envConfig = {
 
   appUrl: process.env.NEXT_PUBLIC_APP_URL,
 
+  jwtSecret: process.env.JWT_SECRET,
+
   interswitchClientId: process.env.INTERSWITCH_CLIENT_ID,
   interswitchClientSecret: process.env.INTERSWITCH_CLIENT_SECRET,
   interswitchMerchantCode: process.env.INTERSWITCH_MERCHANT_CODE,

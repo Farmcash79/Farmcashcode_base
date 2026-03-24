@@ -20,3 +20,20 @@ export async function getCurrentUserFromServer() {
 export function getUserIdFromRequest(request: NextRequest) {
   return request.cookies.get("fc_session")?.value ?? null;
 }
+
+import { jwtVerify } from "jose";
+import { envConfig } from "@/config/env.config";
+
+const secret = new TextEncoder().encode(envConfig.jwtSecret);
+
+export async function verifySession(token: string) {
+  try {
+    const { payload } = await jwtVerify(token, secret);
+    return payload as {
+      userId: string;
+      onboardingCompleted: boolean;
+    };
+  } catch {
+    return null;
+  }
+}
