@@ -1,3 +1,5 @@
+import { envConfig } from "@/config/env.config";
+
 type CachedToken = {
   accessToken: string;
   expiresAt: number;
@@ -10,11 +12,9 @@ export async function getInterswitchAccessToken() {
     return cachedToken.accessToken;
   }
 
-  const clientId = process.env.INTERSWITCH_CLIENT_ID;
-  const secretKey = process.env.INTERSWITCH_CLIENT_SECRET;
-  const baseUrl =
-    process.env.INTERSWITCH_PASSPORT_BASE_URL ??
-    "https://passport-v2.k8.isw.la";
+  const clientId = envConfig.interswitchClientId;
+  const secretKey = envConfig.interswitchClientSecret;
+  const baseUrl = envConfig.interswitchPassportBaseUrl;
 
   if (!clientId || !secretKey) {
     throw new Error("Missing Interswitch client credentials");
@@ -55,10 +55,8 @@ export async function confirmInterswitchTransaction(
   amountKobo: number,
 ) {
   const token = await getInterswitchAccessToken();
-  const merchantCode = process.env.INTERSWITCH_MERCHANT_CODE;
-  const baseUrl =
-    process.env.INTERSWITCH_COLLECTION_BASE_URL ??
-    "https://qa.interswitchng.com";
+  const merchantCode = envConfig.interswitchMerchantCode;
+  const baseUrl = envConfig.interswitchCollectionBaseUrl;
 
   if (!merchantCode) {
     throw new Error("Missing INTERSWITCH_MERCHANT_CODE");

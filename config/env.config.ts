@@ -8,8 +8,12 @@ export const envConfig = {
   interswitchClientSecret: process.env.INTERSWITCH_CLIENT_SECRET,
   interswitchMerchantCode: process.env.INTERSWITCH_MERCHANT_CODE,
   interswitchPayItemId: process.env.INTERSWITCH_PAY_ITEM_ID,
-  interswitchCollectionBaseUrl: process.env.INTERSWITCH_COLLECTION_BASE_URL,
-  interswitchPassportBaseUrl: process.env.INTERSWITCH_PASSPORT_BASE_URL,
+  interswitchCollectionBaseUrl:
+    process.env.INTERSWITCH_COLLECTION_BASE_URL ??
+    "https://qa.interswitchng.com",
+  interswitchPassportBaseUrl:
+    process.env.INTERSWITCH_PASSPORT_BASE_URL ??
+    "https://passport-v2.k8.isw.la",
 
   interswitchCheckoutUrl: process.env.INTERSWITCH_CHECKOUT_URL,
 };
