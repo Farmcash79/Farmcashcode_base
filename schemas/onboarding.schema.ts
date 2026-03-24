@@ -5,3 +5,5 @@ export const onboardingSchema = z.object({
   location: z.string().min(2, "Location is required"),
   farmSize: z.number().positive("Farm size must be greater than 0"),
 });
+
+export type OnboardingType = z.infer<typeof onboardingSchema>;
