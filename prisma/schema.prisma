@@ -33,38 +33,38 @@ enum FarmType {
 }
 
 model User {
-  id            String        @id @default(cuid())
-  name          String
-  email         String        @unique
-  passwordHash  String
-  role          UserRole      @default(FARMER)
-  bvn           String?
-  walletBalance Int           @default(0)
-  onboardingCompleted Boolean @default(false)
-  transactions  Transaction[]
-  createdAt     DateTime      @default(now())
-  updatedAt     DateTime      @updatedAt
+  id                  String        @id @default(cuid())
+  name                String
+  email               String        @unique
+  passwordHash        String
+  role                UserRole      @default(FARMER)
+  bvn                 String?
+  walletBalance       Int           @default(0)
+  onboardingCompleted Boolean       @default(false)
+  transactions        Transaction[]
+  createdAt           DateTime      @default(now())
+  updatedAt           DateTime      @updatedAt
 
-  farmerProfile       FarmerProfile?
+  farmerProfile FarmerProfile?
+
   @@index([email])
 }
 
 model FarmerProfile {
-  id        String  @id @default(cuid())
-  userId    String  @unique
+  id        String   @id @default(cuid())
+  userId    String   @unique
   farmName  String?
   location  String
   farmType  FarmType
   farmSize  Float?
-  createdAt     DateTime      @default(now())
-  updatedAt     DateTime      @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId])
   @@index([farmType])
 }
-
 
 model Transaction {
   id          String            @id @default(cuid())

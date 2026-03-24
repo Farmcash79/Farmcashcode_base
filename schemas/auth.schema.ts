@@ -1,18 +1,13 @@
 import { z } from "zod";
 
 export const loginSchema = z.object({
-  email: z.string().min(2, "Farm name is required"),
-  password: z.string().min(2, "Location is required"),
+  email: z.email("Enter valid email").nonempty(),
+  password: z.string().min(2, "Password is required"),
 });
 
 export const registerSchema = z
   .object({
-    email: z
-      .string()
-      .trim()
-      .toLowerCase()
-      .nonempty("Email is required")
-      .email("Enter valid email"),
+    name: z.string().min(4, "Name is required").nonempty(),
     email: z.email("Enter valid email").nonempty(),
     password: z
       .string()
