@@ -3,7 +3,7 @@ import { registerSchema } from "@/schemas/auth.schema";
 import bcrypt from "bcryptjs";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
-import { signSession } from "@/lib/session";
+import { setSessionCookie, signSession } from "@/lib/session";
 
 export async function POST(req: NextRequest) {
   try {
@@ -40,6 +40,14 @@ export async function POST(req: NextRequest) {
         name: data.name,
         email: data.email,
         passwordHash,
+        onboardingCompleted: false,
+      },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        role: true,
+        onboardingCompleted: true,
       },
     });
 
@@ -51,16 +59,11 @@ export async function POST(req: NextRequest) {
 
     const res = NextResponse.json({
       ok: true,
-      user: { id: user.id, name: user.name, email: user.email },
+      user,
       redirect: "/onboarding",
     });
 
-    res.cookies.set("fc_session", token, {
-      httpOnly: true,
-      sameSite: "lax",
-      path: "/",
-      maxAge: 60 * 60 * 24 * 7,
-    });
+    setSessionCookie(res, token);
 
     return res;
   } catch (error) {

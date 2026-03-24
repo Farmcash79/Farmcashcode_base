@@ -1,33 +1,38 @@
+import { z } from "zod";
 import { envConfig } from "@/config/env.config";
 
-type CachedToken = {
-  accessToken: string;
-  expiresAt: number;
+type VerifyBvnInput = {
+  bvn: string;
+  phoneNumber?: string;
+  dateOfBirth: string;
 };
 
-let cachedToken: CachedToken | null = null;
+const tokenCache = {
+  value: null as string | null,
+  expiresAt: 0,
+};
 
-export async function getInterswitchAccessToken() {
-  if (cachedToken && cachedToken.expiresAt > Date.now() + 60_000) {
-    return cachedToken.accessToken;
+async function getAccessToken() {
+  if (tokenCache.value && tokenCache.expiresAt > Date.now() + 60_000) {
+    return tokenCache.value;
   }
 
   const clientId = envConfig.interswitchClientId;
-  const secretKey = envConfig.interswitchClientSecret;
-  const baseUrl = envConfig.interswitchPassportBaseUrl;
+  const clientSecret = envConfig.interswitchClientSecret;
+  const passportBaseUrl = envConfig.interswitchPassportBaseUrl;
 
-  if (!clientId || !secretKey) {
-    throw new Error("Missing Interswitch client credentials");
+  if (!clientId || !clientSecret || !passportBaseUrl) {
+    throw new Error("Missing Interswitch auth environment variables");
   }
 
-  const basic = Buffer.from(`${clientId}:${secretKey}`).toString("base64");
+  const auth = Buffer.from(`${clientId}:${clientSecret}`).toString("base64");
 
   const res = await fetch(
-    `${baseUrl}/passport/oauth/token?grant_type=client_credentials`,
+    `${passportBaseUrl}/passport/oauth/token?grant_type=client_credentials`,
     {
       method: "POST",
       headers: {
-        Authorization: `Basic ${basic}`,
+        Authorization: `Basic ${auth}`,
         "Content-Type": "application/x-www-form-urlencoded",
       },
       body: "grant_type=client_credentials",
@@ -36,25 +41,63 @@ export async function getInterswitchAccessToken() {
   );
 
   if (!res.ok) {
-    const text = await res.text();
-    throw new Error(`Failed to get Interswitch access token: ${text}`);
+    throw new Error("Failed to get Interswitch access token");
   }
 
   const data = await res.json();
 
-  cachedToken = {
-    accessToken: data.access_token,
-    expiresAt: Date.now() + (data.expires_in ?? 3600) * 1000,
-  };
+  tokenCache.value = data.access_token as string;
+  tokenCache.expiresAt = Date.now() + Number(data.expires_in ?? 3600) * 1000;
 
-  return data.access_token as string;
+  return tokenCache.value;
 }
 
-export async function confirmInterswitchTransaction(
+export async function verifyBvnWithInterswitch(input: VerifyBvnInput) {
+  const baseUrl = envConfig.interswitchKYCBaseUrl;
+  const verifyPath = envConfig.interswitchBVNVerifyPath;
+
+  if (!baseUrl || !verifyPath) {
+    throw new Error("Missing Interswitch BVN verification config");
+  }
+
+  const token = await getAccessToken();
+
+  const payload = {
+    bvn: input.bvn,
+    phoneNumber: input.phoneNumber,
+    dateOfBirth: input.dateOfBirth,
+  };
+
+  const res = await fetch(`${baseUrl}${verifyPath}`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(payload),
+    cache: "no-store",
+  });
+
+  const raw = await res.json().catch(() => ({}));
+
+  if (!res.ok) {
+    throw new Error(raw?.message || "BVN verification failed");
+  }
+
+  return z
+    .object({
+      responseCode: z.string().optional(),
+      responseMessage: z.string().optional(),
+      data: z.any().optional(),
+    })
+    .parse(raw);
+}
+
+export async function confirmTransaction(
   reference: string,
   amountKobo: number,
 ) {
-  const token = await getInterswitchAccessToken();
+  const token = await getAccessToken();
   const merchantCode = envConfig.interswitchMerchantCode;
   const baseUrl = envConfig.interswitchCollectionBaseUrl;
 

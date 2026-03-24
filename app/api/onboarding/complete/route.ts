@@ -1,19 +1,17 @@
 import { prisma } from "@/lib/db";
 import { getUserFromRequest } from "@/lib/auth";
+import { signSession, setSessionCookie } from "@/lib/session";
 import { NextRequest, NextResponse } from "next/server";
-import { onboardingSchema } from "@/schemas/onboarding.schema";
 import { z } from "zod";
-import { signSession } from "@/lib/session";
+import { onboardingCompleteSchema } from "@/schemas/onboarding.schema";
 
 export async function POST(req: NextRequest) {
   const sessionUser = await getUserFromRequest(req);
-
-  if (!sessionUser) {
+  if (!sessionUser)
     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
-  }
 
   const body = await req.json();
-  const parsed = onboardingSchema.safeParse(body);
+  const parsed = onboardingCompleteSchema.safeParse(body);
 
   if (!parsed.success) {
     return NextResponse.json(
@@ -25,23 +23,32 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  const data = parsed.data;
+  const draft = await prisma.onboardingDraft.findUnique({
+    where: { userId: sessionUser.userId },
+  });
+
+  if (draft?.data?.["bvnVerified"] !== true) {
+    return NextResponse.json(
+      { message: "BVN must be verified before completing onboarding" },
+      { status: 400 },
+    );
+  }
 
   await prisma.$transaction(async (db) => {
     await db.farmerProfile.upsert({
       where: { userId: sessionUser.userId },
       update: {
-        farmName: data.farmName,
-        location: data.location,
-        farmSize: data.farmSize,
-        farmType: data.farmType,
+        farmName: parsed.data.farmName,
+        location: parsed.data.location,
+        farmType: parsed.data.farmType,
+        farmSize: parsed.data.farmSize ?? null,
       },
       create: {
         userId: sessionUser.userId,
-        farmName: data.farmName,
-        location: data.location,
-        farmType: data.farmType,
-        farmSize: data.farmSize,
+        farmName: parsed.data.farmName,
+        location: parsed.data.location,
+        farmType: parsed.data.farmType,
+        farmSize: parsed.data.farmSize ?? null,
       },
     });
 
@@ -49,7 +56,12 @@ export async function POST(req: NextRequest) {
       where: { id: sessionUser.userId },
       data: {
         onboardingCompleted: true,
+        bvn: parsed.data.bvn,
       },
+    });
+
+    await db.onboardingDraft.deleteMany({
+      where: { userId: sessionUser.userId },
     });
   });
 
@@ -64,12 +76,6 @@ export async function POST(req: NextRequest) {
     redirect: "/dashboard",
   });
 
-  response.cookies.set("fc_session", token, {
-    httpOnly: true,
-    sameSite: "lax",
-    path: "/",
-    maxAge: 60 * 60 * 24 * 7,
-  });
-
+  setSessionCookie(response, token);
   return response;
 }

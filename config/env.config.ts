@@ -1,5 +1,5 @@
 export const envConfig = {
-  environment: process.env.NODE_ENV,
+  environment: process.env.NODE_ENV as "development" | "production",
   dbUrl: process.env.DATABASE_URL,
 
   appUrl: process.env.NEXT_PUBLIC_APP_URL,
@@ -16,6 +16,9 @@ export const envConfig = {
   interswitchPassportBaseUrl:
     process.env.INTERSWITCH_PASSPORT_BASE_URL ??
     "https://passport-v2.k8.isw.la",
+
+  interswitchKYCBaseUrl: process.env.INTERSWITCH_KYC_BASE_URL,
+  interswitchBVNVerifyPath: process.env.INTERSWITCH_BVN_VERIFY_PATH,
 
   interswitchCheckoutUrl: process.env.INTERSWITCH_CHECKOUT_URL,
 };

@@ -2,9 +2,6 @@ import { prisma } from "@/lib/db";
 import { verifySession } from "./session";
 import { cookies } from "next/headers";
 
-/**
- * For API routes (Route Handlers)
- */
 export async function getUserFromRequest(req: Request) {
   const cookie = req.headers.get("cookie") || "";
 
@@ -23,9 +20,6 @@ export async function getUserIdFromRequest(req: Request) {
   return user?.userId || null;
 }
 
-/**
- * For Server Components / Layouts
- */
 export async function getCurrentUserFromServer() {
   const cookieStore = await cookies();
   const token = cookieStore.get("fc_session")?.value;
@@ -42,8 +36,10 @@ export async function getCurrentUserFromServer() {
       name: true,
       email: true,
       role: true,
-      onboardingCompleted: true,
       walletBalance: true,
+      onboardingCompleted: true,
+      bvn: true,
+      farmerProfile: true,
     },
   });
 }

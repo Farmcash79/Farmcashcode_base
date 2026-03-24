@@ -5,26 +5,33 @@ export async function middleware(req: NextRequest) {
   const token = req.cookies.get("fc_session")?.value;
   const pathname = req.nextUrl.pathname;
 
-  const isAuth =
-    pathname.startsWith("/login") || pathname.startsWith("/register");
-  const isOnboarding = pathname.startsWith("/onboarding");
-  const isProtected = pathname.startsWith("/dashboard");
+  const isAuthPage =
+    pathname.startsWith("/login") ||
+    pathname.startsWith("/register") ||
+    pathname.startsWith("/forgot-password") ||
+    pathname.startsWith("/reset-password");
+  const isOnboardingPage = pathname.startsWith("/onboarding");
+  const isDashboardPage = pathname.startsWith("/dashboard");
 
-  const user = token ? await verifySession(token) : null;
+  const session = token ? await verifySession(token) : null;
 
-  if (isProtected && !user) {
+  if (!session && (isDashboardPage || isOnboardingPage)) {
     return redirect(req, "/login");
   }
 
-  if (user && isAuth) {
+  if (session && isAuthPage) {
     return redirect(
       req,
-      user.onboardingCompleted ? "/dashboard" : "/onboarding",
+      session.onboardingCompleted ? "/dashboard" : "/onboarding",
     );
   }
 
-  if (user && !user.onboardingCompleted && !isOnboarding) {
+  if (session && !session.onboardingCompleted && isDashboardPage) {
     return redirect(req, "/onboarding");
+  }
+
+  if (session && session.onboardingCompleted && isOnboardingPage) {
+    return redirect(req, "/dashboard");
   }
 
   return NextResponse.next();
@@ -41,6 +48,9 @@ export const config = {
     "/dashboard/:path*",
     "/onboarding/:path*",
     "/payment/return/:path*",
-    "/auth/:path*",
+    "/login",
+    "/register",
+    "/forgot-password",
+    "/reset-password",
   ],
 };

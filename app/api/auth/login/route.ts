@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/db";
-import { signSession } from "@/lib/session";
+import { setSessionCookie, signSession } from "@/lib/session";
 import { loginSchema } from "@/schemas/auth.schema";
 import bcrypt from "bcryptjs";
 import { NextRequest, NextResponse } from "next/server";
@@ -22,7 +22,20 @@ export async function POST(req: NextRequest) {
 
     const data = parsed.data;
 
-    const user = await prisma.user.findUnique({ where: { email: data.email } });
+    const user = await prisma.user.findUnique({
+      where: { email: data.email },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        passwordHash: true,
+        role: true,
+        onboardingCompleted: true,
+      },
+    });
+
+    console.log("USER: ", user);
+
     if (!user) {
       return NextResponse.json(
         { message: "Invalid credentials" },
@@ -44,19 +57,20 @@ export async function POST(req: NextRequest) {
       onboardingCompleted: user.onboardingCompleted,
     });
 
+    console.log("TOKEN: ", token);
+
     const res = NextResponse.json({
       ok: true,
-      user: { id: user.id, name: user.name, email: user.email },
+      user: {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+      },
       redirect: user.onboardingCompleted ? "/dashboard" : "/onboarding",
     });
 
-    res.cookies.set("fc_session", token, {
-      httpOnly: true,
-      sameSite: "lax",
-      path: "/",
-      maxAge: 60 * 60 * 24 * 7,
-    });
-
+    setSessionCookie(res, token);
     return res;
   } catch (error) {
     return NextResponse.json(
