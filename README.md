@@ -1,8 +1,8 @@
-## Farmcash MVP
+# Farmcash MVP
 
 Farmcash is a fintech MVP designed to help farmers and agricultural groups manage money digitally through wallet funding, payments, and transaction tracking. This version focuses on a working payment flow using Interswitch and a simple wallet system.
 
-### Getting Started
+## Getting Started
 
 Prerequisites:
 
@@ -54,3 +54,66 @@ npm run dev
 ```bash
 http://localhost:3000
 ```
+
+## Project Structure
+
+```bash
+app - Pages and API routes (Next.js App Router)
+lib - Core logic (DB, auth, payments)
+components - Reusable UI components
+prisma - Database schema and seed
+```
+
+## Core Features
+
+```bash
+User authentication (login/register)
+Wallet balance tracking
+Fund wallet using Interswitch
+Payment verification and confirmation
+Transaction history
+Basic protection for authenticated routes
+```
+
+## Payment Flow
+
+```bash
+User initiates payment
+System creates a pending transaction
+User is redirected to Interswitch checkout
+After payment, user is redirected back
+Backend verifies payment with Interswitch
+Wallet is updated if successful
+```
+
+## Contributing
+
+1. Create a new branch:
+
+```bash
+git checkout -b feature/your-feature-name
+```
+
+2. Make your changes
+
+3. Ensure everything still works:
+
+- Login
+- Payment flow
+- Wallet updates
+
+4. Commit your changes:
+
+```bash
+git commit -m "feat: add your feature"
+```
+
+5. Push and open a pull request
+
+## Contribution Guidelines
+
+- Keep changes small and focused
+- Do not break the payment flow
+- Always test end-to-end before pushing
+- Follow existing folder structure
+- Prefer clarity over complexity
