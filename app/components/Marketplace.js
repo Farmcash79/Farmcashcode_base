@@ -1,4 +1,5 @@
 import styles from './Marketplace.module.css';
+import Link from 'next/link';
 
 export default function Marketplace() {
   return (
@@ -22,7 +23,9 @@ export default function Marketplace() {
           <p className={styles.desc}>
             Connect with buyers and sellers across the country. No middlemen, better prices. List your produce, discover quality inputs, and trade with confidence.
           </p>
-          <button className={styles.cta}>Explore Marketplace</button>
+          <Link href="/marketplace">
+            <button className={styles.cta}>Explore Marketplace</button>
+          </Link>
         </div>
       </div>
     </section>

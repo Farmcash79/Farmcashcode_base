@@ -33,7 +33,7 @@
 }
 
 .item.active {
-  border-color: var(--green-primary);
+  border-color: var(--primary);
 }
 
 .question {
@@ -52,13 +52,13 @@
 }
 
 .item.active .question {
-  color: var(--green-primary);
+  color: var(--primary);
 }
 
 .chevron {
   font-size: 22px;
   font-weight: 400;
-  color: var(--green-primary);
+  color: var(--primary);
   flex-shrink: 0;
   line-height: 1;
 }

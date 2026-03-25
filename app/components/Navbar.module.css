@@ -64,52 +64,66 @@
   margin-left: auto;
 }
 
+/* Navbar.module.css */
+
 .loginBtn {
-  background: none;
-  border: 1.5px solid #ccc;
-  border-radius: var(--radius);
+  background-color: transparent;
+  color: var(--primary); /* FarmCash Green text */
+  border: 1px solid var(--primary);
   padding: 8px 20px;
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--text-dark);
-  transition: border-color 0.2s;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
 
 .loginBtn:hover {
-  border-color: var(--green-primary);
-  color: var(--green-primary);
+  background-color: var(--primary);
+  color: var(--primary-foreground); /* White text on hover */
 }
 
 .ctaBtn {
-  background: var(--green-primary);
-  color: #fff;
+  background-color: var(--primary); /* Solid FarmCash Green */
+  color: var(--primary-foreground); /* White text */
+  border: none;
+  padding: 8px 20px;
   border-radius: var(--radius);
-  padding: 9px 22px;
-  font-size: 14px;
   font-weight: 600;
-  transition: background 0.2s, transform 0.1s;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
 }
 
 .ctaBtn:hover {
-  background: var(--green-dark);
-  transform: translateY(-1px);
+  opacity: 0.9;
 }
 
 .hamburger {
-  display: none;
+  display: flex; 
   flex-direction: column;
   gap: 5px;
   background: none;
+  border: none;
   padding: 4px;
   margin-left: auto;
+  cursor: pointer;
 }
-
 .hamburger span {
   display: block;
-  width: 24px;
-  height: 2px;
-  background: var(--text-dark);
+  width: 25px;
+  height: 3px;
+  background-color: var(--foreground); /* Use your dark text color */
   border-radius: 2px;
+  transition: all 0.3s ease;
+}
+@media (min-width: 769px) {
+  .hamburger {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .hamburger {
+    display: flex;
+  }
 }
 
 @media (max-width: 768px) {

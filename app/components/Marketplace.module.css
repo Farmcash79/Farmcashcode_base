@@ -52,7 +52,7 @@
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 1px;
-  color: var(--green-primary);
+  color: var(--primary);
   margin-bottom: 16px;
 }
 
@@ -67,7 +67,7 @@
 }
 
 .highlight {
-  color: var(--green-primary);
+  color: var(--primary);
 }
 
 .desc {
@@ -78,7 +78,7 @@
 }
 
 .cta {
-  background: var(--green-primary);
+  background: var(--primary);
   color: #fff;
   padding: 13px 28px;
   border-radius: var(--radius);
