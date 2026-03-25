@@ -66,9 +66,18 @@ export function LoginForm() {
         <p className="text-sm text-red-600">{serverError}</p>
       ) : null}
 
+      <div className="text-center mb-5">
+        <Link
+          href="/forgot-password"
+          className="font-medium text-sm text-[#C6C7C8]"
+        >
+          Forgot your password?
+        </Link>
+      </div>
+
       <Button
         type="submit"
-        className="btn w-2xs mx-auto flex justify-center"
+        className="h-12 w-2xs mx-auto flex justify-center"
         disabled={form.formState.isSubmitting || !form.formState.isValid}
       >
         {form.formState.isSubmitting ? <Loading /> : "Sign In"}

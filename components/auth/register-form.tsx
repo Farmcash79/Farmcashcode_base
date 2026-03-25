@@ -82,7 +82,7 @@ export function RegisterForm() {
       ) : null}
       <Button
         type="submit"
-        className="btn w-2xs mx-auto flex justify-center"
+        className="h-12 w-2xs mx-auto flex justify-center"
         disabled={form.formState.isSubmitting || !form.formState.isValid}
       >
         {form.formState.isSubmitting ? <Loading /> : "Sign Up"}

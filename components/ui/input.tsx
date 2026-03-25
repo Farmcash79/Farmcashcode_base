@@ -15,10 +15,10 @@ function Input({ className, type, ...props }: React.ComponentProps<"input">) {
       className={cn(
         // UPDATED CORE STYLES
         "h-12 w-full min-w-0 rounded-xl bg-white px-4 text-sm",
-        "border border-transparent shadow-sm ring-1 ring-[#f0f0f0]",
+        "ring-0 ring-[#f0f0f0]",
         "placeholder:text-[#b8b8b8]",
         "outline-none transition-all",
-        "focus-visible:ring-2 focus-visible:ring-[#148C08]/20",
+        "focus-visible:ring-2 focus-visible:ring-gray-400/20",
         "disabled:pointer-events-none disabled:opacity-50",
         "aria-invalid:ring-red-200",
         className,
