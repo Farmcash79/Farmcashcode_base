@@ -11,7 +11,6 @@ export default function RegisterPage() {
       imageSrc={images.authLayoutImage}
       imageAlt="Farmcash register illustration"
       reverse={false}
-      actionBtn="Sign Up"
     >
       <RegisterForm />
     </AuthShell>

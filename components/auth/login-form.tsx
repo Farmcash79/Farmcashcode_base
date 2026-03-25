@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { loginSchema, type LoginInput } from "@/schemas/auth.schema";
 import { Button } from "@/components/ui/button";
-import { Field, FieldError, FieldLabel } from "@/components/ui/field";
+import { Field, FieldError } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import Link from "next/link";
@@ -43,32 +43,41 @@ export function LoginForm() {
   return (
     <form onSubmit={onSubmit} className="space-y-5">
       <Field>
-        <FieldLabel>Email</FieldLabel>
+        {/* <FieldLabel>Email</FieldLabel> */}
         <Input
           type="email"
-          placeholder="you@example.com"
+          placeholder="Enter Address"
           {...form.register("email")}
         />
         <FieldError>{form.formState.errors.email?.message}</FieldError>
       </Field>
 
       <Field>
-        <FieldLabel>Password</FieldLabel>
+        {/* <FieldLabel>Password</FieldLabel> */}
         <Input
           type="password"
-          placeholder="••••••••"
+          placeholder="Password"
           {...form.register("password")}
         />
         <FieldError>{form.formState.errors.password?.message}</FieldError>
       </Field>
 
       {serverError ? (
-        <p className="text-sm text-red-300">{serverError}</p>
+        <p className="text-sm text-red-600">{serverError}</p>
       ) : null}
+
+      <div className="text-center mb-5">
+        <Link
+          href="/forgot-password"
+          className="font-medium text-sm text-[#C6C7C8]"
+        >
+          Forgot your password?
+        </Link>
+      </div>
 
       <Button
         type="submit"
-        className="btn w-2xs mx-auto flex justify-center"
+        className="h-12 w-2xs mx-auto flex justify-center"
         disabled={form.formState.isSubmitting || !form.formState.isValid}
       >
         {form.formState.isSubmitting ? <Loading /> : "Sign In"}

@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { registerSchema, type RegisterInput } from "@/schemas/auth.schema";
 import { Button } from "@/components/ui/button";
-import { Field, FieldError, FieldLabel } from "@/components/ui/field";
+import { Field, FieldError } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { Loading } from "../feedback/loading";
@@ -43,12 +43,12 @@ export function RegisterForm() {
   return (
     <form onSubmit={onSubmit} className="space-y-5">
       <Field>
-        <FieldLabel>Name</FieldLabel>
+        {/* <FieldLabel>Name</FieldLabel> */}
         <Input placeholder="Full Name" {...form.register("name")} />
         <FieldError>{form.formState.errors.name?.message}</FieldError>
       </Field>
       <Field>
-        <FieldLabel>Email</FieldLabel>
+        {/* <FieldLabel>Email</FieldLabel> */}
         <Input
           type="email"
           placeholder="Email Address"
@@ -57,7 +57,7 @@ export function RegisterForm() {
         <FieldError>{form.formState.errors.email?.message}</FieldError>
       </Field>
       <Field>
-        <FieldLabel>Password</FieldLabel>
+        {/* <FieldLabel>Password</FieldLabel> */}
         <Input
           type="password"
           placeholder="Create Password"
@@ -67,7 +67,7 @@ export function RegisterForm() {
       </Field>
 
       <Field>
-        <FieldLabel>Confirm Password</FieldLabel>
+        {/* <FieldLabel>Confirm Password</FieldLabel> */}
         <Input
           type="password"
           placeholder="Confirm Password"
@@ -78,11 +78,11 @@ export function RegisterForm() {
         </FieldError>
       </Field>
       {serverError ? (
-        <p className="text-sm text-red-300">{serverError}</p>
+        <p className="text-sm text-red-600">{serverError}</p>
       ) : null}
       <Button
         type="submit"
-        className="btn w-2xs mx-auto flex justify-center"
+        className="h-12 w-2xs mx-auto flex justify-center"
         disabled={form.formState.isSubmitting || !form.formState.isValid}
       >
         {form.formState.isSubmitting ? <Loading /> : "Sign Up"}
