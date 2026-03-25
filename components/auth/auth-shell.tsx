@@ -56,7 +56,7 @@ export function AuthShell({
               : "flex items-center justify-center px-6 py-12"
           }
         >
-          <div className="w-full max-w-md p-5 backdrop-blur-xl rounded-2xl shadow">
+          <div className="w-full max-w-127 p-5">
             <div className="space-y-3">
               <div className="flex flex-col justify-center items-center gap-6">
                 <h1 className="text-4xl font-semibold text-center">
