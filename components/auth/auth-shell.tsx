@@ -8,7 +8,6 @@ type AuthShellProps = {
   description: string;
   imageSrc: StaticImageData;
   imageAlt: string;
-  actionBtn: string;
   reverse?: boolean;
   children: React.ReactNode;
 };
@@ -19,7 +18,6 @@ export function AuthShell({
   description,
   imageSrc,
   imageAlt,
-  actionBtn,
   reverse = false,
   children,
 }: Readonly<AuthShellProps>) {
@@ -46,15 +44,6 @@ export function AuthShell({
                   className="object-cover h-full w-full"
                   priority
                 />
-              </div>
-              <div className="flex justify-center">
-                <Button
-                  variant="outline"
-                  size="lg"
-                  className="w-2xs h-12 border-primary/90 text-primary"
-                >
-                  {actionBtn}
-                </Button>
               </div>
             </div>
           </div>

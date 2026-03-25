@@ -2,23 +2,20 @@ import { prisma } from "@/lib/db";
 import { getUserFromRequest } from "@/lib/auth";
 import { signSession, setSessionCookie } from "@/lib/session";
 import { NextRequest, NextResponse } from "next/server";
-import { z } from "zod";
 import { onboardingCompleteSchema } from "@/schemas/onboarding.schema";
 
 export async function POST(req: NextRequest) {
   const sessionUser = await getUserFromRequest(req);
-  if (!sessionUser)
+  if (!sessionUser) {
     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+  }
 
   const body = await req.json();
   const parsed = onboardingCompleteSchema.safeParse(body);
 
   if (!parsed.success) {
     return NextResponse.json(
-      {
-        message: "Invalid onboarding data",
-        errors: z.treeifyError(parsed.error),
-      },
+      { message: "Invalid onboarding data" },
       { status: 400 },
     );
   }
@@ -27,7 +24,10 @@ export async function POST(req: NextRequest) {
     where: { userId: sessionUser.userId },
   });
 
-  if (draft?.data?.["bvnVerified"] !== true) {
+  const data = draft?.data as Record<string, unknown>;
+  const bvnVerified = data["bvnVerified"];
+
+  if (bvnVerified !== true) {
     return NextResponse.json(
       { message: "BVN must be verified before completing onboarding" },
       { status: 400 },
@@ -35,28 +35,27 @@ export async function POST(req: NextRequest) {
   }
 
   await prisma.$transaction(async (db) => {
-    await db.farmerProfile.upsert({
-      where: { userId: sessionUser.userId },
-      update: {
-        farmName: parsed.data.farmName,
-        location: parsed.data.location,
-        farmType: parsed.data.farmType,
-        farmSize: parsed.data.farmSize ?? null,
-      },
-      create: {
-        userId: sessionUser.userId,
-        farmName: parsed.data.farmName,
-        location: parsed.data.location,
-        farmType: parsed.data.farmType,
-        farmSize: parsed.data.farmSize ?? null,
-      },
-    });
-
     await db.user.update({
       where: { id: sessionUser.userId },
       data: {
+        name: parsed.data.fullName,
         onboardingCompleted: true,
         bvn: parsed.data.bvn,
+      },
+    });
+
+    await db.farmerProfile.upsert({
+      where: { userId: sessionUser.userId },
+      update: {
+        location: parsed.data.farmLocation,
+        farmType: parsed.data.farmType,
+      },
+      create: {
+        userId: sessionUser.userId,
+        location: parsed.data.farmLocation,
+        farmType: parsed.data.farmType,
+        farmName: null,
+        farmSize: null,
       },
     });
 

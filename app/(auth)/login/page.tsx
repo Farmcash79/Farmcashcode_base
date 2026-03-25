@@ -11,7 +11,6 @@ export default function LoginPage() {
       imageSrc={images.authLayoutImage}
       imageAlt="Farmcash login illustration"
       reverse={true}
-      actionBtn="Sign In"
     >
       <LoginForm />
     </AuthShell>
