@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const roleSchema = z.enum(["FARMER", "ADMIN"]);
+export const roleSchema = z.enum(["FARMER", "ADMIN", "AGENT"]);
 
 export const loginSchema = z.object({
   email: z.email("Enter a valid email").nonempty(),
