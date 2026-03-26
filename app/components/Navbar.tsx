@@ -19,16 +19,22 @@ export default function Navbar() {
           </span>
         </Link>
 
+        
         <ul className={`${styles.links} ${menuOpen ? styles.open : ''}`}>
-          {/* Changed <a> to <Link> for smoother navigation */}
           <li><Link href="/products">Product</Link></li>
           <li><Link href="/solutions">Solutions</Link></li>
           <li><Link href="/marketplace">Marketplace</Link></li>
-          <li><Link href="/about">About</Link></li>
+          <li><Link href="/loan-and-credit">Loan & Credit</Link></li>
           
+       
+          <li className={styles.mobileOnly}>
+             <Link href="/login">
+               <button className={styles.loginBtn}>Login</button>
+             </Link>
+          </li>
         </ul>
-
-        <div className={styles.actions  }>
+ 
+        <div className={styles.actions}>
           <Link href="/login">
             <button className={styles.loginBtn}>Login</button>
           </Link>
