@@ -1,5 +1,5 @@
 import {
-  BVNStepInput,
+  OnboardingStep1Input,
   OnboardingCompleteInput,
 } from "@/schemas/onboarding.schema";
 import {
@@ -20,8 +20,8 @@ export type StepFarmDetailsProps = {
 };
 
 export type StepBVNProps = {
-  register: UseFormRegister<BVNStepInput>;
-  errors: FieldErrors<BVNStepInput>;
+  register: UseFormRegister<OnboardingStep1Input>;
+  errors: FieldErrors<OnboardingStep1Input>;
   isSubmitting: boolean;
   onNext: () => void;
 };
