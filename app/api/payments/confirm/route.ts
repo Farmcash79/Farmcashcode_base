@@ -5,7 +5,7 @@ import { getUserIdFromRequest } from "@/lib/auth";
 
 export async function POST(req: NextRequest) {
   try {
-    const userId = getUserIdFromRequest(req);
+    const userId = await getUserIdFromRequest(req);
     if (!userId)
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
 
