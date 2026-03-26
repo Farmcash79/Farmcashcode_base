@@ -11,7 +11,7 @@ const faqs = [
 ];
 
 export default function FAQ() {
-  const [open, setOpen] = useState(null);
+  const [open, setOpen] = useState<number | null>(null);
 
   return (
     <section className={styles.section}>
