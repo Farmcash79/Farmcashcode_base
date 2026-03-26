@@ -93,7 +93,7 @@ export async function verifyBvnWithInterswitch(input: VerifyBvnInput) {
     .parse(raw);
 }
 
-export async function confirmTransaction(
+export async function confirmInterswitchTransaction(
   reference: string,
   amountKobo: number,
 ) {
