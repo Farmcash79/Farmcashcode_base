@@ -141,6 +141,12 @@
   }
 }
 
+@media (min-width: 769px) {
+  .mobileOnly {
+    display: none;
+  }
+}
+
 @media (max-width: 768px) {
   .links {
     display: none;
