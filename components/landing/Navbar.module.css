@@ -96,6 +96,21 @@
   opacity: 0.9;
 }
 
+.dashboardBtn {
+  background-color: var(--primary); /* Solid FarmCash Green */
+  color: var(--primary-foreground); /* White text */
+  border: none;
+  padding: 8px 20px;
+  border-radius: var(--radius);
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.dashboardBtn:hover {
+  opacity: 0.9;
+}
+
 .hamburger {
   display: flex; 
   flex-direction: column;

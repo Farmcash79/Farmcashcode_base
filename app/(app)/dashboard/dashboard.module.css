@@ -1,0 +1,441 @@
+.dashboard {
+  padding: 24px;
+  min-height: 100vh;
+  background-color: #0f172a;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 32px;
+}
+
+.greeting h1 {
+  font-size: 24px;
+  font-weight: 600;
+  color: white;
+  margin: 0;
+  margin-bottom: 4px;
+}
+
+.greeting p {
+  font-size: 14px;
+  color: #94a3b8;
+  margin: 0;
+}
+
+.accountBtn {
+  padding: 10px 16px;
+  background-color: #10b981;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.accountBtn:hover {
+  background-color: #059669;
+}
+
+.gridContainer {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+@media (max-width: 1024px) {
+  .gridContainer {
+    grid-template-columns: 1fr;
+  }
+}
+
+.leftColumn,
+.rightColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.card {
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 24px;
+  color: white;
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.cardHeader h2 {
+  font-size: 16px;
+  font-weight: 600;
+  color: white;
+  margin: 0;
+}
+
+.cardTools {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.searchInput {
+  padding: 8px 12px;
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  color: white;
+  font-size: 14px;
+  width: 200px;
+}
+
+.searchInput::placeholder {
+  color: #64748b;
+}
+
+.filterBtn {
+  padding: 8px 16px;
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.2s;
+}
+
+.filterBtn:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Wallet Card */
+.walletAmount {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.currency {
+  font-size: 20px;
+  color: white;
+}
+
+.amount {
+  font-size: 32px;
+  font-weight: 700;
+  color: white;
+}
+
+.eye {
+  margin-left: auto;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.change {
+  font-size: 12px;
+  color: #10b981;
+  margin-bottom: 16px;
+  margin-top: 0;
+}
+
+.buttons {
+  display: flex;
+  gap: 12px;
+}
+
+.btn {
+  flex: 1;
+  padding: 12px 16px;
+  background-color: white;
+  color: #0f172a;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.btn:hover {
+  background-color: #f0f0f0;
+}
+
+/* Loan Card */
+.loanAmount {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.loanAmount .amount {
+  font-size: 28px;
+}
+
+.loanDetail {
+  font-size: 13px;
+  color: #94a3b8;
+  margin: 0 0 4px 0;
+}
+
+.accountNum {
+  font-size: 13px;
+  color: #64748b;
+  margin: 0 0 12px 0;
+}
+
+.nextPayment {
+  padding: 12px;
+  background-color: rgba(16, 185, 129, 0.1);
+  border-radius: 6px;
+  color: #10b981;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+/* Do More Section */
+.doMoreSection {
+  background: linear-gradient(135deg, rgba(147, 197, 253, 0.1), rgba(167, 139, 250, 0.1));
+  border: 1px solid rgba(147, 197, 253, 0.2);
+  border-radius: 12px;
+  padding: 24px;
+  color: white;
+}
+
+.doMoreSection h3 {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0 0 8px 0;
+  color: white;
+}
+
+.doMoreSection p {
+  font-size: 13px;
+  color: #cbd5e1;
+  margin: 0 0 16px 0;
+}
+
+.doMoreButtons {
+  display: flex;
+  gap: 12px;
+}
+
+.doMoreButtons a {
+  text-decoration: none;
+  flex: 1;
+}
+
+.doMoreBtn {
+  width: 100%;
+  padding: 12px;
+  background-color: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.doMoreBtn:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Farm Land Card */
+.farmLand {
+  margin-bottom: 24px;
+}
+
+.acreage {
+  font-size: 28px;
+  font-weight: 700;
+  color: white;
+  margin: 0 0 4px 0;
+}
+
+.farmType {
+  font-size: 14px;
+  color: #94a3b8;
+  margin: 0 0 16px 0;
+}
+
+.priceTrends h4 {
+  font-size: 13px;
+  font-weight: 600;
+  color: #cbd5e1;
+  margin: 0 0 12px 0;
+}
+
+.trendItems {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.trendItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  font-size: 13px;
+}
+
+.trendItem:last-child {
+  border-bottom: none;
+}
+
+.trendItem span:first-child {
+  color: #cbd5e1;
+  flex: 1;
+}
+
+.price {
+  color: white;
+  font-weight: 600;
+  flex: 1;
+  text-align: right;
+}
+
+.trend {
+  margin-left: 12px;
+  font-size: 16px;
+}
+
+/* Table */
+.table {
+  width: 100%;
+  margin-top: 16px;
+}
+
+.tableHeader {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1.5fr 1.2fr 1.2fr;
+  gap: 16px;
+  padding: 12px 16px;
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 12px;
+  font-weight: 600;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.tableRow {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1.5fr 1.2fr 1.2fr;
+  gap: 16px;
+  padding: 12px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  align-items: center;
+  font-size: 13px;
+}
+
+.tableRow:hover {
+  background-color: rgba(255, 255, 255, 0.02);
+}
+
+.cell {
+  display: flex;
+  align-items: center;
+}
+
+.id {
+  color: #94a3b8;
+  font-family: "Monaco", "Courier New", monospace;
+}
+
+.activity {
+  color: white;
+  font-weight: 500;
+}
+
+.price {
+  color: white;
+  font-weight: 600;
+}
+
+.status {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+.status.completed {
+  color: #10b981;
+}
+
+.status.pending {
+  color: #f59e0b;
+}
+
+.status.failed {
+  color: #ef4444;
+}
+
+.noData {
+  padding: 32px;
+  text-align: center;
+  color: #64748b;
+}
+
+@media (max-width: 768px) {
+  .dashboard {
+    padding: 16px;
+  }
+
+  .header {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .gridContainer {
+    gap: 16px;
+  }
+
+  .card {
+    padding: 16px;
+  }
+
+  .tableHeader,
+  .tableRow {
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .tableHeader > div:nth-child(n + 3),
+  .tableRow > div:nth-child(n + 3) {
+    display: none;
+  }
+
+  .searchInput {
+    width: 100%;
+  }
+
+  .buttons {
+    flex-direction: column;
+  }
+
+  .doMoreButtons {
+    flex-direction: column;
+  }
+}

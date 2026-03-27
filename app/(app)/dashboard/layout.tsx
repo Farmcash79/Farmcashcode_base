@@ -1,5 +1,6 @@
 import { getCurrentUserFromServer } from "@/lib/auth";
 import { redirect } from "next/navigation";
+import { DashboardLayoutWrapper } from "@/components/dashboard/dashboard-layout";
 
 export default async function DashboardLayout({
   children,
@@ -11,5 +12,5 @@ export default async function DashboardLayout({
   if (!user) redirect("/login");
   if (!user.onboardingCompleted) redirect("/onboarding");
 
-  return <>{children}</>;
+  return <DashboardLayoutWrapper>{children}</DashboardLayoutWrapper>;
 }

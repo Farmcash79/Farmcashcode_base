@@ -1,0 +1,19 @@
+.container {
+  display: flex;
+  height: 100vh;
+  background-color: #0f172a;
+  color: white;
+}
+
+.main {
+  flex: 1;
+  margin-left: 200px;
+  overflow-y: auto;
+  background-color: #0f172a;
+}
+
+@media (max-width: 768px) {
+  .main {
+    margin-left: 60px;
+  }
+}

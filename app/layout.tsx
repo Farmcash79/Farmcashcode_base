@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
-import { Roboto, Roboto_Mono } from "next/font/google";
 import "./globals.css";
 
+<<<<<<< HEAD
 const roboto = Roboto({
   subsets: ["latin"],
 });
 
+=======
+>>>>>>> 5a73087 (modifid the dashboard and added side bar for routing clarity)
 export const metadata: Metadata = {
   title: "Farmcash",
   description:
@@ -21,7 +23,7 @@ export default function RootLayout({
     <html
       suppressHydrationWarning
       lang="en"
-      className={` ${roboto.className}  h-full antialiased`}
+      className="h-full antialiased"
     >
       <head>
         <title>Farmcash – Empowering Farmers with Financial Solutions</title>
