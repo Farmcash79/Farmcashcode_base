@@ -1,33 +1,31 @@
-import Navbar from './components/Navbar';
-import Hero from './components/Hero';
-import Stats from './components/Stats';
-import Features from './components/Features';
-import HowItWorks from './components/HowItWorks';
-import Marketplace from './components/Marketplace';
-import Business from './components/Business';
-import Testimonials from './components/Testimonials';
-import FAQ from './components/FAQ';
-import AppDownload from './components/AppDownload';
-import Footer from './components/Footer';
+import Navbar from "../components/landing/Navbar";
+import Hero from "../components/landing/Hero";
+import Stats from "../components/landing/Stats";
+import Features from "../components/landing/Features";
+import HowItWorks from "../components/landing/HowItWorks";
+import Marketplace from "../components/landing/Marketplace";
+import Business from "../components/landing/Business";
+import Testimonials from "../components/landing/Testimonials";
+import FAQ from "../components/landing/FAQ";
+import AppDownload from "../components/landing/AppDownload";
+import Footer from "../components/landing/Footer";
 
 export default function Home() {
-	return (
-		<>
-			<Navbar /> 
-			<Hero />
-	<main>
-			<Stats />
-		    <Features />
-			<HowItWorks />
-			<Marketplace />
-			<Business />
-			<Testimonials />
-			<FAQ />
-			<AppDownload />
-				
-</main> 
-			<Footer />  
-                     </>
-	);
+  return (
+    <>
+      <Navbar />
+      <Hero />
+      <main>
+        <Stats />
+        <Features />
+        <HowItWorks />
+        <Marketplace />
+        <Business />
+        <Testimonials />
+        <FAQ />
+        <AppDownload />
+      </main>
+      <Footer />
+    </>
+  );
 }
-
