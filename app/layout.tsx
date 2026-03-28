@@ -1,5 +1,14 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
+import { Roboto, Roboto_Mono } from "next/font/google";
 import "./globals.css";
+
+const roboto = Roboto({
+  subsets: ["latin"],
+});
+
+const robotoMono = Roboto_Mono({
+  subsets: ["latin"],
+});
 
 export const metadata: Metadata = {
   title: "Farmcash – Empowering Farmers with Financial Solutions",
